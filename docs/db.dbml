@@ -1,0 +1,126 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Analyst: Represents an analyst who provides stock ratings.
+Dividend: Represents dividend history of stocks.
+Stock: Represents a stock listed in the market.
+IndexStock: Represents relationship between stocks and market indices.
+MarketIndex: Represents a market index comprised of multiple stocks.
+Investor: Represents an investor in the stock market.
+NewsArticle: Represents news articles related to stocks.
+Portfolio: Represents an investor's stock portfolio.
+StockPrice: Represents historical prices for stocks.
+StockRating: Represents ratings given by analysts for stocks.
+Transaction: Represents transactions of stock buying or selling by investors.
+Watchlist: Represents a list of stocks being watched by an investor.
+'''
+}
+
+Table Analyst {
+    id INTEGER [primary key]
+    name VARCHAR 
+    firm VARCHAR 
+    }
+
+Table Dividend {
+    id INTEGER [primary key]
+    stock_id INTEGER 
+    date_declared DATETIME 
+    date_paid DATETIME 
+    amount_per_share FLOAT 
+    }
+
+Table Stock {
+    id INTEGER [primary key]
+    symbol VARCHAR 
+    name VARCHAR 
+    market_sector VARCHAR 
+    }
+
+Table IndexStock {
+    id INTEGER [primary key]
+    index_id INTEGER 
+    stock_id INTEGER 
+    }
+
+Table MarketIndex {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description TEXT 
+    }
+
+Table Investor {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    }
+
+Table NewsArticle {
+    id INTEGER [primary key]
+    stock_id INTEGER 
+    publish_date DATETIME 
+    title VARCHAR 
+    content TEXT 
+    }
+
+Table Portfolio {
+    id INTEGER [primary key]
+    investor_id INTEGER 
+    stock_id INTEGER 
+    shares_owned FLOAT 
+    }
+
+Table StockPrice {
+    id INTEGER [primary key]
+    stock_id INTEGER 
+    date DATETIME 
+    open_price FLOAT 
+    close_price FLOAT 
+    high_price FLOAT 
+    low_price FLOAT 
+    volume FLOAT 
+    }
+
+Table StockRating {
+    id INTEGER [primary key]
+    stock_id INTEGER 
+    analyst_id INTEGER 
+    rating VARCHAR 
+    rating_date DATETIME 
+    }
+
+Table Transaction {
+    id INTEGER [primary key]
+    investor_id INTEGER 
+    stock_id INTEGER 
+    datetime DATETIME 
+    transaction_type VARCHAR 
+    shares FLOAT 
+    price_per_share FLOAT 
+    }
+
+Table Watchlist {
+    id INTEGER [primary key]
+    investor_id INTEGER 
+    stock_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Dividend.(stock_id) < Stock.(id)
+    Ref: IndexStock.(index_id) < MarketIndex.(id)
+    Ref: IndexStock.(stock_id) < Stock.(id)
+    Ref: NewsArticle.(stock_id) < Stock.(id)
+    Ref: Portfolio.(investor_id) < Investor.(id)
+    Ref: Portfolio.(stock_id) < Stock.(id)
+    Ref: StockPrice.(stock_id) < Stock.(id)
+    Ref: StockRating.(analyst_id) < Analyst.(id)
+    Ref: StockRating.(stock_id) < Stock.(id)
+    Ref: Transaction.(investor_id) < Investor.(id)
+    Ref: Transaction.(stock_id) < Stock.(id)
+    Ref: Watchlist.(investor_id) < Investor.(id)
+    Ref: Watchlist.(stock_id) < Stock.(id)

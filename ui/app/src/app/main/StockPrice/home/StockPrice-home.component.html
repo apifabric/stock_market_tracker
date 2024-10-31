@@ -1,0 +1,52 @@
+<o-form-layout-manager attr="StockPrice" mode="tab" title="STOCKPRICE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="StockPriceTable" 
+            service="StockPrice" 
+            entity="StockPrice" 
+            title="STOCKPRICE"
+            keys="id"
+            columns="id;stock_id;date;open_price;close_price;high_price;low_price;volume" 
+            header-actions="R;D"
+            visible-columns="id;stock_id;date;open_price;close_price;high_price;low_price;volume"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-date-input #date attr="date" type="timestamp" label="date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-column #open_price attr="open_price" title="open_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #close_price attr="close_price" title="close_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #high_price attr="high_price" title="high_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #low_price attr="low_price" title="low_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #volume attr="volume" title="volume" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -1,0 +1,469 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Stock_form_edit" 
+        service="Stock" 
+        entity="Stock" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #symbol attr="symbol" label="symbol" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #market_sector attr="market_sector" label="market_sector" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="DIVIDEND-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="DividendTable" 
+        service="Dividend" 
+        entity="Dividend" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;stock_id;amount_per_share;date_declared;date_paid"  
+        horizontal-scroll="yes"
+        detail-form-route="Dividend" 
+        edit-form-route="Dividend"
+        visible-columns="id;stock_id;amount_per_share;date_declared;date_paid"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #amount_per_share attr="amount_per_share" title="amount_per_share" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #date_declared attr="date_declared" title="date_declared" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #date_paid attr="date_paid" title="date_paid" editable="no" required="yes" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="INDEXSTOCK-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="IndexStockTable" 
+        service="IndexStock" 
+        entity="IndexStock" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;index_id;stock_id"  
+        horizontal-scroll="yes"
+        detail-form-route="IndexStock" 
+        edit-form-route="IndexStock"
+        visible-columns="id;index_id;stock_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="index_id" title="index_id">
+    <o-table-cell-renderer-service attr="index_id" 
+        service="MarketIndex" entity="MarketIndexType" columns="id;name"
+        parent-keys="id:index_id"
+        value-column="name" keys="index_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="NEWSARTICLE-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="NewsArticleTable" 
+        service="NewsArticle" 
+        entity="NewsArticle" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;stock_id;publish_date;title;content"  
+        horizontal-scroll="yes"
+        detail-form-route="NewsArticle" 
+        edit-form-route="NewsArticle"
+        visible-columns="id;stock_id;publish_date;title;content"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #publish_date attr="publish_date" type="timestamp" label="publish_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #title attr="title" title="title" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #content attr="content" title="content" editable="no" required="no" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="PORTFOLIO-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="PortfolioTable" 
+        service="Portfolio" 
+        entity="Portfolio" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;investor_id;stock_id;shares_owned"  
+        horizontal-scroll="yes"
+        detail-form-route="Portfolio" 
+        edit-form-route="Portfolio"
+        visible-columns="id;investor_id;stock_id;shares_owned"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investor_id" title="investor_id">
+    <o-table-cell-renderer-service attr="investor_id" 
+        service="Investor" entity="InvestorType" columns="id;name"
+        parent-keys="id:investor_id"
+        value-column="name" keys="investor_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #shares_owned attr="shares_owned" title="shares_owned" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="STOCKPRICE-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="StockPriceTable" 
+        service="StockPrice" 
+        entity="StockPrice" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;stock_id;date;open_price;close_price;high_price;low_price;volume"  
+        horizontal-scroll="yes"
+        detail-form-route="StockPrice" 
+        edit-form-route="StockPrice"
+        visible-columns="id;stock_id;date;open_price;close_price;high_price;low_price;volume"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #date attr="date" type="timestamp" label="date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #open_price attr="open_price" title="open_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #close_price attr="close_price" title="close_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #high_price attr="high_price" title="high_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #low_price attr="low_price" title="low_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #volume attr="volume" title="volume" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="STOCKRATING-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="StockRatingTable" 
+        service="StockRating" 
+        entity="StockRating" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;analyst_id;stock_id;rating;rating_date"  
+        horizontal-scroll="yes"
+        detail-form-route="StockRating" 
+        edit-form-route="StockRating"
+        visible-columns="id;analyst_id;stock_id;rating;rating_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="analyst_id" title="analyst_id">
+    <o-table-cell-renderer-service attr="analyst_id" 
+        service="Analyst" entity="AnalystType" columns="id;name"
+        parent-keys="id:analyst_id"
+        value-column="name" keys="analyst_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #rating attr="rating" title="rating" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-date-input #rating_date attr="rating_date" type="timestamp" label="rating_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="TRANSACTION-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="TransactionTable" 
+        service="Transaction" 
+        entity="Transaction" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;investor_id;stock_id;datetime;transaction_type;shares;price_per_share"  
+        horizontal-scroll="yes"
+        detail-form-route="Transaction" 
+        edit-form-route="Transaction"
+        visible-columns="id;investor_id;stock_id;datetime;transaction_type;shares;price_per_share"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investor_id" title="investor_id">
+    <o-table-cell-renderer-service attr="investor_id" 
+        service="Investor" entity="InvestorType" columns="id;name"
+        parent-keys="id:investor_id"
+        value-column="name" keys="investor_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #datetime attr="datetime" title="datetime" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #transaction_type attr="transaction_type" title="transaction_type" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #shares attr="shares" title="shares" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #price_per_share attr="price_per_share" title="price_per_share" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="WATCHLIST-stock_id">
+    <div layout-padding>
+      <o-table 
+        attr="WatchlistTable" 
+        service="Watchlist" 
+        entity="Watchlist" 
+        keys="id"
+        parent-keys="stock_id:id"
+        columns="id;investor_id;stock_id"  
+        horizontal-scroll="yes"
+        detail-form-route="Watchlist" 
+        edit-form-route="Watchlist"
+        visible-columns="id;investor_id;stock_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investor_id" title="investor_id">
+    <o-table-cell-renderer-service attr="investor_id" 
+        service="Investor" entity="InvestorType" columns="id;name"
+        parent-keys="id:investor_id"
+        value-column="name" keys="investor_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

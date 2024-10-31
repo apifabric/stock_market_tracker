@@ -1,0 +1,386 @@
+about:
+  date: October 31, 2024 09:06:14
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 13
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Analyst:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: firm
+    - name: id
+    description: Represents an analyst who provides stock ratings.
+    info_list: Represents an analyst who provides stock ratings.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - analyst_id
+      name: StockRatingList
+      resource: StockRating
+    type: Analyst
+    user_key: name
+  Dividend:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: stock_id
+      required: true
+    - name: amount_per_share
+      required: true
+    - name: date_declared
+      required: true
+      type: DATETIME
+    - name: date_paid
+      required: true
+      type: DATETIME
+    description: Represents dividend history of stocks.
+    info_list: Represents dividend history of stocks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Dividend
+    user_key: id
+  IndexStock:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: index_id
+      required: true
+    - name: stock_id
+      required: true
+    description: Represents relationship between stocks and market indices.
+    info_list: Represents relationship between stocks and market indices.
+    tab_groups:
+    - direction: toone
+      fks:
+      - index_id
+      name: index
+      resource: MarketIndex
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: IndexStock
+    user_key: id
+  Investor:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Represents an investor in the stock market.
+    info_list: Represents an investor in the stock market.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - investor_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - investor_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - investor_id
+      name: WatchlistList
+      resource: Watchlist
+    type: Investor
+    user_key: name
+  MarketIndex:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Represents a market index comprised of multiple stocks.
+    info_list: Represents a market index comprised of multiple stocks.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - index_id
+      name: IndexStockList
+      resource: IndexStock
+    type: MarketIndex
+    user_key: name
+  NewsArticle:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: stock_id
+    - name: publish_date
+      required: true
+      type: DATETIME
+    - name: title
+      required: true
+    - name: content
+    description: Represents news articles related to stocks.
+    info_list: Represents news articles related to stocks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: NewsArticle
+    user_key: id
+  Portfolio:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investor_id
+      required: true
+    - name: stock_id
+      required: true
+    - name: shares_owned
+      required: true
+    description: Represents an investor's stock portfolio.
+    info_list: Represents an investor's stock portfolio.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Portfolio
+    user_key: id
+  Stock:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: symbol
+      required: true
+    - name: market_sector
+    - name: id
+    description: Represents a stock listed in the market.
+    info_list: Represents a stock listed in the market.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - stock_id
+      name: DividendList
+      resource: Dividend
+    - direction: tomany
+      fks:
+      - stock_id
+      name: IndexStockList
+      resource: IndexStock
+    - direction: tomany
+      fks:
+      - stock_id
+      name: NewsArticleList
+      resource: NewsArticle
+    - direction: tomany
+      fks:
+      - stock_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - stock_id
+      name: StockPriceList
+      resource: StockPrice
+    - direction: tomany
+      fks:
+      - stock_id
+      name: StockRatingList
+      resource: StockRating
+    - direction: tomany
+      fks:
+      - stock_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - stock_id
+      name: WatchlistList
+      resource: Watchlist
+    type: Stock
+    user_key: name
+  StockPrice:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: stock_id
+      required: true
+    - name: date
+      required: true
+      type: DATETIME
+    - name: open_price
+      required: true
+    - name: close_price
+      required: true
+    - name: high_price
+      required: true
+    - name: low_price
+      required: true
+    - name: volume
+      required: true
+    description: Represents historical prices for stocks.
+    info_list: Represents historical prices for stocks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: StockPrice
+    user_key: id
+  StockRating:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: analyst_id
+      required: true
+    - name: stock_id
+      required: true
+    - name: rating
+      required: true
+    - name: rating_date
+      required: true
+      type: DATETIME
+    description: Represents ratings given by analysts for stocks.
+    info_list: Represents ratings given by analysts for stocks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - analyst_id
+      name: analyst
+      resource: Analyst
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: StockRating
+    user_key: id
+  Transaction:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investor_id
+      required: true
+    - name: stock_id
+      required: true
+    - name: datetime
+      required: true
+      type: DATETIME
+    - name: transaction_type
+      required: true
+    - name: shares
+      required: true
+    - name: price_per_share
+      required: true
+    description: Represents transactions of stock buying or selling by investors.
+    info_list: Represents transactions of stock buying or selling by investors.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Transaction
+    user_key: id
+  Watchlist:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investor_id
+      required: true
+    - name: stock_id
+      required: true
+    description: Represents a list of stocks being watched by an investor.
+    info_list: Represents a list of stocks being watched by an investor.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Watchlist
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

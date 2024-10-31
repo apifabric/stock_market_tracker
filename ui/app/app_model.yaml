@@ -1,0 +1,570 @@
+about:
+  date: October 31, 2024 09:06:14
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Analyst:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: firm
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents an analyst who provides stock ratings.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents an analyst who provides stock ratings.
+    label: Analyst
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - analyst_id
+      name: StockRatingList
+      resource: StockRating
+    type: Analyst
+  Dividend:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: amount_per_share
+      required: true
+      template: real
+      type: FLOAT
+    - name: date_declared
+      required: true
+      type: DATETIME
+    - name: date_paid
+      required: true
+      type: DATETIME
+    description: Represents dividend history of stocks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents dividend history of stocks.
+    label: Dividend
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Dividend
+  IndexStock:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: index_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents relationship between stocks and market indices.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents relationship between stocks and market indices.
+    label: IndexStock
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - index_id
+      name: index
+      resource: MarketIndex
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: IndexStock
+  Investor:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents an investor in the stock market.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents an investor in the stock market.
+    label: Investor
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - investor_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - investor_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - investor_id
+      name: WatchlistList
+      resource: Watchlist
+    type: Investor
+  MarketIndex:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: TEXT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a market index comprised of multiple stocks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents a market index comprised of multiple stocks.
+    label: MarketIndex
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - index_id
+      name: IndexStockList
+      resource: IndexStock
+    type: MarketIndex
+  NewsArticle:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      template: integer
+      type: INTEGER
+    - name: publish_date
+      required: true
+      type: DATETIME
+    - name: title
+      required: true
+      template: text
+      type: VARCHAR
+    - name: content
+      template: text
+      type: TEXT
+    description: Represents news articles related to stocks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents news articles related to stocks.
+    label: NewsArticle
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: NewsArticle
+  Portfolio:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investor_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: shares_owned
+      required: true
+      template: real
+      type: FLOAT
+    description: Represents an investor's stock portfolio.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents an investor's stock portfolio.
+    label: Portfolio
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Portfolio
+  Stock:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: symbol
+      required: true
+      template: text
+      type: VARCHAR
+    - name: market_sector
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a stock listed in the market.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents a stock listed in the market.
+    label: Stock
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - stock_id
+      name: DividendList
+      resource: Dividend
+    - direction: tomany
+      fks:
+      - stock_id
+      name: IndexStockList
+      resource: IndexStock
+    - direction: tomany
+      fks:
+      - stock_id
+      name: NewsArticleList
+      resource: NewsArticle
+    - direction: tomany
+      fks:
+      - stock_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - stock_id
+      name: StockPriceList
+      resource: StockPrice
+    - direction: tomany
+      fks:
+      - stock_id
+      name: StockRatingList
+      resource: StockRating
+    - direction: tomany
+      fks:
+      - stock_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - stock_id
+      name: WatchlistList
+      resource: Watchlist
+    type: Stock
+  StockPrice:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: date
+      required: true
+      type: DATETIME
+    - name: open_price
+      required: true
+      template: real
+      type: FLOAT
+    - name: close_price
+      required: true
+      template: real
+      type: FLOAT
+    - name: high_price
+      required: true
+      template: real
+      type: FLOAT
+    - name: low_price
+      required: true
+      template: real
+      type: FLOAT
+    - name: volume
+      required: true
+      template: real
+      type: FLOAT
+    description: Represents historical prices for stocks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents historical prices for stocks.
+    label: StockPrice
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: StockPrice
+  StockRating:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: analyst_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: rating
+      required: true
+      template: text
+      type: VARCHAR
+    - name: rating_date
+      required: true
+      type: DATETIME
+    description: Represents ratings given by analysts for stocks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents ratings given by analysts for stocks.
+    label: StockRating
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - analyst_id
+      name: analyst
+      resource: Analyst
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: StockRating
+  Transaction:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investor_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: datetime
+      required: true
+      type: DATETIME
+    - name: transaction_type
+      required: true
+      template: text
+      type: VARCHAR
+    - name: shares
+      required: true
+      template: real
+      type: FLOAT
+    - name: price_per_share
+      required: true
+      template: real
+      type: FLOAT
+    description: Represents transactions of stock buying or selling by investors.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents transactions of stock buying or selling by investors.
+    label: Transaction
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Transaction
+  Watchlist:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investor_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: stock_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents a list of stocks being watched by an investor.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents a list of stocks being watched by an investor.
+    label: Watchlist
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investor_id
+      name: investor
+      resource: Investor
+    - direction: toone
+      fks:
+      - stock_id
+      name: stock
+      resource: Stock
+    type: Watchlist
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

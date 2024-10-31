@@ -1,0 +1,57 @@
+<o-form-layout-manager attr="Transaction" mode="tab" title="TRANSACTION">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="TransactionTable" 
+            service="Transaction" 
+            entity="Transaction" 
+            title="TRANSACTION"
+            keys="id"
+            columns="id;investor_id;stock_id;datetime;transaction_type;shares;price_per_share" 
+            header-actions="R;D"
+            visible-columns="id;investor_id;stock_id;datetime;transaction_type;shares;price_per_share"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="investor_id" title="investor_id">
+    <o-table-cell-renderer-service attr="investor_id" 
+        service="Investor" entity="InvestorType" columns="id;name"
+        parent-keys="id:investor_id"
+        value-column="name" keys="investor_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #datetime attr="datetime" title="datetime" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #transaction_type attr="transaction_type" title="transaction_type" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #shares attr="shares" title="shares" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #price_per_share attr="price_per_share" title="price_per_share" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -1,0 +1,89 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Analyst_form_edit" 
+        service="Analyst" 
+        entity="Analyst" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #firm attr="firm" label="firm" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="STOCKRATING-analyst_id">
+    <div layout-padding>
+      <o-table 
+        attr="StockRatingTable" 
+        service="StockRating" 
+        entity="StockRating" 
+        keys="id"
+        parent-keys="analyst_id:id"
+        columns="id;analyst_id;stock_id;rating;rating_date"  
+        horizontal-scroll="yes"
+        detail-form-route="StockRating" 
+        edit-form-route="StockRating"
+        visible-columns="id;analyst_id;stock_id;rating;rating_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="analyst_id" title="analyst_id">
+    <o-table-cell-renderer-service attr="analyst_id" 
+        service="Analyst" entity="AnalystType" columns="id;name"
+        parent-keys="id:analyst_id"
+        value-column="name" keys="analyst_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="stock_id" title="stock_id">
+    <o-table-cell-renderer-service attr="stock_id" 
+        service="Stock" entity="StockType" columns="id;name"
+        parent-keys="id:stock_id"
+        value-column="name" keys="stock_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #rating attr="rating" title="rating" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-date-input #rating_date attr="rating_date" type="timestamp" label="rating_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>
